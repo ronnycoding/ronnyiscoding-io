@@ -103,6 +103,8 @@ export default function Index({
           <a
             tabIndex={0}
             className='cursor-pointer pointer-events-auto bg-transparent text-base font-roboto hover:bg-cinnabar dark:hover:bg-blue-night text-cinnabar dark:text-blue-night font-normal hover:text-white dark:hover:text-white py-4 px-12 border border-cinnabar dark:border-blue-night hover:border-transparent transform transition-all duration-300 scale-100 hover:scale-150'
+            href='https://bit.ly/softwareconsultant'
+            target='_blank'
           >
             Let's Get in touch
           </a>
@@ -132,6 +134,8 @@ export default function Index({
               <a
                 tabIndex={0}
                 className='cursor-pointer pointer-events-auto bg-transparent text-base font-roboto hover:bg-cinnabar dark:hover:bg-blue-night text-cinnabar dark:text-blue-night font-normal hover:text-white dark:hover:text-white py-4 px-12 border border-cinnabar dark:border:blue-night hover:border-transparent transform transition-all duration-300 scale-100 hover:scale-150 mt-10'
+                href='https://bit.ly/softwareconsultant'
+                target='_blank'
               >
                 Let's talk about your project
               </a>
