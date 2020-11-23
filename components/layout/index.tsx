@@ -1,9 +1,14 @@
-import React from 'react';
+import { ReactElement } from 'react';
 import Footer from '../footer';
 import Meta from '../meta';
 
+import {
+  Seo,
+} from '../../src/generated/graphql';
+
 interface ILayout {
-  children: JSX.Element | JSX.Element[];
+  children: ReactElement | ReactElement[] | JSX.Element | JSX.Element[] | null;
+  seo?: Seo | null
 }
 
 export default function Layout({ children, ...props }: ILayout) {

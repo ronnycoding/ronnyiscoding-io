@@ -9,7 +9,7 @@ module.exports = withPlugins(
   {
     images: {
       domains: [
-        process.env.GRAPHCMS_API
+        'media.graphcms.com'
       ]
     }
   }

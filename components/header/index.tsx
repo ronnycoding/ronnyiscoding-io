@@ -10,6 +10,7 @@ import {
   TOGGLE_THEME,
   LIGHT,
 } from '../../theme/useTheme';
+const tailwind = require('../../tailwind.config');
 
 const Header = () => {
   const { mode, theme } = useTheme();
@@ -18,7 +19,7 @@ const Header = () => {
   const backgroundColor = useTransform(
     scrollYProgress,
     [0, 0.1],
-    ['rgba(0, 0, 0, 0)', theme.navbar]
+    ['rgba(0, 0, 0, 0)', mode === LIGHT ? tailwind.theme.colors.gray.lightTheme : tailwind.theme.colors.gray.darkTheme]
   );
 
   const boxShadow = useTransform(

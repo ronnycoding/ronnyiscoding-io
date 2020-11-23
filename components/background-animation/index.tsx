@@ -4,8 +4,6 @@ import { motion } from 'framer-motion';
 
 import { useTheme, DARK } from '../../theme/useTheme';
 
-const tailwind = require('../../tailwind.config');
-
 const Container = styled.div`
   position: relative;
   display: flex;

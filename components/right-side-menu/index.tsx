@@ -9,13 +9,7 @@ import {
   FaInstagram
 } from 'react-icons/fa'
 
-import { useTheme, LIGHT } from '../../theme/useTheme'
-
-interface ContainerProps {
-  barColor: string
-}
-
-const Container = styled.div<ContainerProps>`
+const Container = styled.div`
   position: absolute;
   right: 0;
   top: 0;
@@ -24,11 +18,8 @@ const Container = styled.div<ContainerProps>`
 `
 
 const RightSideMenu = () => {
-  const { theme, mode } = useTheme()
-  const getInTouchColor = mode === LIGHT ? 'cinnabar' : 'blue-night'
-
   return (
-    <Container barColor={theme.sideMenuBarColor}>
+    <Container>
       <motion.div
         style={{
           position: 'fixed',
@@ -43,7 +34,7 @@ const RightSideMenu = () => {
               tabIndex={0}
               href="https://instagram.com/ronnyiscoding"
               target="_blank"
-              className={`text-sm mr-4 pointer-events-auto cursor-pointer text-${getInTouchColor}`}
+              className="text-sm mr-4 pointer-events-auto cursor-pointer text-cinnabar dark:text-blue-night"
             >
               <FaInstagram size="1em" />
             </a>
@@ -53,7 +44,7 @@ const RightSideMenu = () => {
               tabIndex={0}
               href="https://twitter.com/ronnyiscoding"
               target="_blank"
-              className={`text-sm mr-4 pointer-events-auto cursor-pointer text-${getInTouchColor}`}
+              className="text-sm mr-4 pointer-events-auto cursor-pointer text-cinnabar dark:text-blue-night"
             >
               <FaTwitter size="1em" />
             </a>
@@ -63,7 +54,7 @@ const RightSideMenu = () => {
               tabIndex={0}
               href="https://www.linkedin.com/in/ronnyfreites/"
               target="_blank"
-              className={`text-sm mr-4 pointer-events-auto cursor-pointer text-${getInTouchColor}`}
+              className="text-sm mr-4 pointer-events-auto cursor-pointer text-cinnabar dark:text-blue-night"
             >
               <FaLinkedinIn size="1em" />
             </a>
@@ -73,7 +64,7 @@ const RightSideMenu = () => {
               tabIndex={0}
               href="https://medium.com/@ronnyangelofreites"
               target="_blank"
-              className={`text-sm mr-4 pointer-events-auto cursor-pointer text-${getInTouchColor}`}
+              className="text-sm mr-4 pointer-events-auto cursor-pointer text-cinnabar dark:text-blue-night"
             >
               <FaMediumM size="1em" />
             </a>
@@ -83,7 +74,7 @@ const RightSideMenu = () => {
               tabIndex={0}
               href="https://github.com/ronnyiscoding"
               target="_blank"
-              className={`text-sm mr-4 pointer-events-auto cursor-pointer text-${getInTouchColor}`}
+              className="text-sm mr-4 pointer-events-auto cursor-pointer text-cinnabar dark:text-blue-night"
             >
               <FaGithub size="1em" />
             </a>

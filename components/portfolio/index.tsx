@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimateSharedLayout } from 'framer-motion';
 import Image from 'next/image';
 
-import { useTheme, LIGHT } from '../../theme/useTheme';
-import { CategoriesType } from '../../pages';
 import {
-  Project_Acfrecentprojects,
   Project,
+  ProjectCategory
 } from '../../src/generated/graphql';
 import { SubHeaderTitleH3 } from '../../styles/styles';
+
+const tailwind = require('../../tailwind.config');
 
 const spring = {
   type: 'spring',
@@ -16,51 +16,45 @@ const spring = {
   damping: 30,
 };
 
-interface FilterBarInterface extends CategoriesType {
-  isLightTheme: boolean;
+interface IFilterBar {
   onChange: (str: string) => void;
   selected: string;
+  categories: ProjectCategory[]
 }
 
-interface FilterContentInterface extends CategoriesType {
-  isLightTheme: boolean;
+interface IFilterContent {
+  categories: ProjectCategory[];
   selected: string;
   onSelectProject: (project: Project) => void;
 }
 
-interface ProjectCardInterface {
+interface IProjectCard {
+  title: string;
   bgImage?: string | null;
-  acfRecentProjects: Project_Acfrecentprojects | null | undefined;
-  isLightTheme: boolean;
   onClick: () => void;
   display?: boolean;
 }
 
-interface ModalDetailsInterface {
-  backgroundColor: string;
+interface IModalDetails {
   onClose: () => void;
-  project: Project | null;
+  project: Project;
 }
 
 const FilterBar = ({
   categories,
-  isLightTheme = false,
   onChange = () => {},
   selected = '',
-}: FilterBarInterface) => {
-  const getInTouchColor = isLightTheme ? 'cinnabar' : 'blue-night';
-  const fontColor = isLightTheme ? 'text-blueDiane' : 'text-white';
-  const { theme } = useTheme();
+}: IFilterBar) => {
   const clean = () => onChange('');
   return (
     <AnimateSharedLayout>
       <div className='w-full flex-column lg:flex justify-center'>
         <div
           tabIndex={0}
-          className={`outline-none cursor-pointer pointer-events-auto bg-transparent text-sm font-roboto hover:bg-${getInTouchColor} font-normal hover:text-white py-4 px-12 relative ${
+          className={`outline-none cursor-pointer pointer-events-auto bg-transparent text-sm font-roboto hover:bg-cinnabar dark:hover:bg-blue-night font-normal hover:text-white dark:hover:text-white py-4 px-12 relative ${
             '' === selected
-              ? `bg-${getInTouchColor} active text-white`
-              : fontColor
+              ? 'bg-cinnabar dark:bg-blue-night active text-white dark:text-white'
+              : 'text-blueDiane dark:text-white'
           }`}
           onClick={clean}
           onKeyPress={clean}
@@ -71,7 +65,7 @@ const FilterBar = ({
               layoutId='outline'
               initial={false}
               transition={spring}
-              animate={{ backgroundColor: theme.primary }}
+              animate={{ backgroundColor: tailwind.theme.primary }}
               style={{
                 position: 'absolute',
                 top: '0px',
@@ -83,27 +77,27 @@ const FilterBar = ({
             />
           )}
         </div>
-        {categories.nodes &&
-          categories.nodes
-            .filter(({ projects }) => projects.nodes.length)
-            .map(({ id, name }) => (
+        {categories &&
+          categories
+            .filter(({ projects }) => projects.length)
+            .map(({ id, title }) => (
               <div
                 key={id}
                 tabIndex={0}
-                className={`outline-none cursor-pointer pointer-events-auto bg-transparent text-sm font-roboto hover:bg-${getInTouchColor} font-normal hover:text-white py-4 px-12 hover:border-transparent relative ${
+                className={`outline-none cursor-pointer pointer-events-auto bg-transparent text-sm font-roboto hover:bg-cinnabar dark:hover:bg-blue-night font-normal hover:text-white py-4 px-12 hover:border-transparent relative ${
                   id === selected
-                    ? `bg-${getInTouchColor} active text-white`
-                    : fontColor
+                    ? 'bg-cinnabar dark:bg-blue-night active text-white dark:text-white'
+                    : 'text-blueDiane dark:text-white'
                 }`}
                 onClick={() => onChange(id)}
                 onKeyPress={() => onChange(id)}
               >
-                {name}
+                {title}
                 {id === selected && (
                   <motion.div
                     layoutId='outline'
                     initial={false}
-                    animate={{ backgroundColor: theme.primary }}
+                    animate={{ backgroundColor: tailwind.theme.primary }}
                     transition={spring}
                     style={{
                       position: 'absolute',
@@ -123,15 +117,12 @@ const FilterBar = ({
 };
 
 const ProjectCard = ({
-  bgImage = '',
-  acfRecentProjects,
-  isLightTheme = false,
+  title,
+  bgImage,
   onClick = () => {},
   display = true,
-}: ProjectCardInterface) => {
+}: IProjectCard) => {
   const [isHover, setIsHover] = useState<boolean>(false);
-  const getInTouchColor = isLightTheme ? 'cinnabar' : 'blue-night';
-  const fontColor = isLightTheme ? 'text-white' : 'text-white';
 
   const setOnHover = () => setIsHover(true);
   const setOnLeave = () => setIsHover(false);
@@ -148,7 +139,7 @@ const ProjectCard = ({
           : { opacity: 0, display: 'none', scale: '0%' }),
       }}
       transition={{ duration: 0.5 }}
-      className={`h-54 w-full relative pointer-events-auto cursor-pointer mt-4 flex flex-col items-center align-middle justify-center`}
+      className='h-54 w-full relative pointer-events-auto cursor-pointer mt-4 flex flex-col items-center align-middle justify-center'
       onMouseEnter={setOnHover}
       onMouseLeave={setOnLeave}
     >
@@ -161,13 +152,13 @@ const ProjectCard = ({
             className='flex flex-col justify-center items-center z-20 absolute w-full h-full p-4'
           >
             <SubHeaderTitleH3
-              className={`font-opensans text-sm leading-tight lg:text-xl font-semibold ${fontColor} text-center`}
+              className={`font-opensans text-sm leading-tight lg:text-xl font-semibold text-white dark:text-white text-center`}
             >
-              {acfRecentProjects && acfRecentProjects.title}
+              {title}
             </SubHeaderTitleH3>
             <motion.div
               tabIndex={0}
-              className={`cursor-pointer pointer-events-auto bg-transparent text-base font-roboto ${fontColor} font-normal py-4 px-12 border border-white mt-2`}
+              className={`cursor-pointer pointer-events-auto bg-transparent text-base font-roboto text-white dark:text-white font-normal py-4 px-12 border border-white mt-2`}
               onClick={onClick}
             >
               Open Project
@@ -177,7 +168,7 @@ const ProjectCard = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className={`absolute w-full h-full z-10 opacity-75 bg-${getInTouchColor}`}
+            className={`absolute w-full h-full z-10 opacity-75 bg-cinnabar dark:bg-blue-night`}
           />
         </>
       )}
@@ -196,48 +187,45 @@ const ProjectCard = ({
 
 const FilterContent = ({
   categories,
-  isLightTheme,
   selected = '',
   onSelectProject,
-}: FilterContentInterface) => {
+}: IFilterContent) => {
   return (
     <div className='w-full lg:grid grid-cols-3 gap-4'>
-      {categories.nodes &&
-        categories.nodes
-          .filter(({ projects }) => projects.nodes.length)
+      {categories &&
+        categories
+          .filter(({ projects }) => projects.length)
           .map(({ id: idCategory, projects }) => (
-            <React.Fragment key={idCategory}>
-              {projects.nodes.map(
-                ({ id, acfRecentProjects, featuredImage, ...restProject }) => (
-                  <ProjectCard
-                    key={id}
-                    isLightTheme={isLightTheme}
-                    bgImage={featuredImage?.node?.sourceUrl}
-                    display={idCategory === selected || selected === ''}
-                    acfRecentProjects={acfRecentProjects}
-                    onClick={() =>
-                      onSelectProject({
-                        id,
-                        acfRecentProjects,
-                        featuredImage,
-                        ...restProject,
-                      })
-                    }
-                  />
-                )
-              )}
-            </React.Fragment>
-          ))}
+              <React.Fragment key={idCategory}>
+                {projects.map(
+                  ({ id: projectCardId, title, featureImage, ...projectRestProps }) => (
+                    <ProjectCard
+                      key={projectCardId}
+                      title={title || ''}
+                      bgImage={featureImage?.url || ''}
+                      display={idCategory === selected || selected === ''}
+                      onClick={() => 
+                        onSelectProject({
+                          id: projectCardId,
+                          title,
+                          featureImage,
+                          ...projectRestProps,
+                        })
+                      }
+                    />
+                  )
+                )}
+              </React.Fragment>
+            )
+          )}
     </div>
   );
 };
 
 const ModalDetails = ({
-  backgroundColor,
   onClose,
   project,
-}: ModalDetailsInterface) => {
-  const { theme } = useTheme();
+}: IModalDetails) => {
   return (
     <motion.div
       className={`main-modal fixed w-full h-100 inset-0 overflow-hidden flex justify-center items-center`}
@@ -252,9 +240,9 @@ const ModalDetails = ({
         style={{
           position: 'absolute',
           bottom: 0,
-          backgroundColor: theme.primary,
+          backgroundColor: tailwind.theme.primary,
         }}
-        className={`absolute h-full w-full ${backgroundColor} opacity-100`}
+        className='absolute h-full w-full bg-cinnabar dark:bg-blue-400 opacity-100'
       ></motion.div>
       <motion.div
         initial={{ opacity: 0 }}
@@ -265,7 +253,7 @@ const ModalDetails = ({
         <motion.div className='modal-content text-left'>
           <motion.div className='flex justify-between items-center pb-3'>
             <motion.p className='text-2xl font-bold text-black'>
-              {project?.acfRecentProjects?.title}
+              {project?.title}
             </motion.p>
             <motion.div
               className='modal-close cursor-pointer z-50 border-black border-2 p-4 absolute'
@@ -295,7 +283,7 @@ const ModalDetails = ({
           style={{
             backgroundBlendMode: 'luminosity',
             backgroundPosition: 'top center',
-            backgroundImage: `url(${project?.featuredImage?.node?.sourceUrl})`,
+            backgroundImage: `url(${project?.featureImage?.url})`,
             minHeight: '50vh',
           }}
         />
@@ -303,7 +291,7 @@ const ModalDetails = ({
           <motion.div
             className='my-5 text-black max-w-lg'
             dangerouslySetInnerHTML={{
-              __html: project?.acfRecentProjects?.description || '',
+              __html: project?.description || '',
             }}
           />
           <motion.div
@@ -312,7 +300,7 @@ const ModalDetails = ({
             transition={{ duration: 2 }}
           >
             <Image
-              src={project?.featuredImage?.node?.sourceUrl || ''}
+              src={project?.featureImage?.url || ''}
               width='auto'
               height={200}
               loading='eager'
@@ -324,10 +312,11 @@ const ModalDetails = ({
   );
 };
 
-const Portfolio = ({ categories }: CategoriesType) => {
-  const { mode } = useTheme();
-  const isLightTheme = mode === LIGHT;
-  const selectedBgColor = isLightTheme ? 'bg-cinnabar' : 'bg-blue-400';
+interface IPortfolio {
+  categories: ProjectCategory[]
+}
+
+const Portfolio = ({ categories }: IPortfolio) => {
   const [categorySelected, setCategorySelected] = useState<string>('');
   const [projectSelected, setProjectSelected] = useState<Project | null>(null);
 
@@ -346,21 +335,18 @@ const Portfolio = ({ categories }: CategoriesType) => {
           <FilterBar
             selected={categorySelected}
             onChange={setCategorySelected}
-            isLightTheme={isLightTheme}
             categories={categories}
           />
           <AnimateSharedLayout type='switch'>
             <FilterContent
               onSelectProject={handleOnSelectProject}
               selected={categorySelected}
-              isLightTheme={isLightTheme}
               categories={categories}
             />
             {projectSelected && (
               <ModalDetails
                 project={projectSelected}
                 onClose={handleOnCloseProject}
-                backgroundColor={selectedBgColor}
               />
             )}
           </AnimateSharedLayout>
