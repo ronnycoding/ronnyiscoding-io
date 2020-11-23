@@ -1,7 +1,13 @@
-import '../styles/globals.css'
+import ThemeProvider from 'theme/useTheme';
+import BaseLayout from 'components/base-layout' 
+import '../styles/tailwind.css'
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+const App = ({ Component, pageProps }) => (
+  <ThemeProvider>
+    <BaseLayout>
+      <Component {...pageProps} />
+    </BaseLayout>
+  </ThemeProvider>
+);
 
-export default MyApp
+export default App;
