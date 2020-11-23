@@ -106,9 +106,8 @@ export default function Index({
           >
             Let's Get in touch
           </a>
-        </div>
-        {/*  */}
-        {page && page?.imageTexts && page.imageTexts.map(({image, title, text, id}) => (
+        </div>   
+        {page && page?.imageTexts && page?.imageTexts.map(({image, title, text, id}) => (
           <div key={id} className='flex flex-col lg:grid grid-cols-3 my-20'>
             <div className='col-span-2 mb-4 lg:mb-auto lg:w-4/5 relative'>
               <Image

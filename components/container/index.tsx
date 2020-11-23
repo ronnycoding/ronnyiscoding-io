@@ -1,7 +1,6 @@
-import { ReactElement } from 'react';
-
 interface IContainer {
-  children?: ReactElement | ReactElement[];
+  // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/27805
+  children: any;
 }
 
 export default function Container({ children }: IContainer) {
