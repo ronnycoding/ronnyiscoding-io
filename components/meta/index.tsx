@@ -1,13 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
 import { Helmet } from 'react-helmet';
-import {
-  Seo,
-} from '../../src/generated/graphql';
+import { Seo } from '../../src/generated/graphql';
 
-interface IMeta {seo?: Seo | null}
+interface IMeta {
+  seo?: Seo | null;
+}
 
-export default function Meta({seo}: IMeta) {
+export default function Meta({ seo }: IMeta) {
   return (
     <>
       <Head>
@@ -16,6 +16,8 @@ export default function Meta({seo}: IMeta) {
         <link
           href='https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Lora:wght@400;500;700&family=Open+Sans:wght@300;400;700;800&family=Roboto:wght@300;400;500;700&display=swap'
           rel='stylesheet'
+          // @ts-ignore
+          lazyload
         />
         <link
           rel='apple-touch-icon'
@@ -92,7 +94,10 @@ export default function Meta({seo}: IMeta) {
         <meta name='theme-color' content='#ffffff' />
         <meta name='description' content={seo?.opengraphDescription || ''} />
         <meta property='og:image' content='/favicon.png' />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180359002-1"></script>
+        <script
+          async
+          src='https://www.googletagmanager.com/gtag/js?id=UA-180359002-1'
+        ></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer = window.dataLayer || [];
@@ -102,7 +107,6 @@ export default function Meta({seo}: IMeta) {
             gtag('config', 'UA-180359002-1');`,
           }}
         />
-        {/* End Google Tag Manager (noscript) */}
       </Head>
       <Helmet
         htmlAttributes={{

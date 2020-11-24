@@ -185,7 +185,7 @@ const ProjectCard = ({
       <Image
         className=''
         src={(bgImage && bgImage) || ''}
-        alt={''}
+        alt={`${title} project portfolio`}
         width='auto'
         height={200}
         loading='eager'
@@ -311,6 +311,7 @@ const ModalDetails = ({ onClose, project }: IModalDetails) => {
           >
             <Image
               src={project?.featureImage?.url || ''}
+              alt={project?.title || ''}
               width='auto'
               height={200}
               loading='eager'
