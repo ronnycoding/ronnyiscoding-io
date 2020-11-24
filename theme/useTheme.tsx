@@ -5,8 +5,6 @@ import React, {
   ReactElement,
 } from 'react';
 
-import { darkTheme, lightTheme } from './themes';
-
 export const DARK = 'DARK';
 export const LIGHT = 'LIGHT';
 
@@ -61,7 +59,6 @@ export function useTheme() {
   const { theme } = context;
 
   return {
-    theme: theme === LIGHT ? lightTheme : darkTheme,
     mode: theme,
   };
 }

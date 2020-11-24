@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { motion, AnimateSharedLayout } from 'framer-motion';
 import Image from 'next/image';
 
-import {
-  Project,
-  ProjectCategory
-} from '../../src/generated/graphql';
+import { Project, ProjectCategory } from '../../src/generated/graphql';
 import { SubHeaderTitleH3 } from '../../styles/styles';
+import { useTheme, LIGHT } from '../../theme/useTheme';
 
 const tailwind = require('../../tailwind.config');
 
@@ -19,7 +17,7 @@ const spring = {
 interface IFilterBar {
   onChange: (str: string) => void;
   selected: string;
-  categories: ProjectCategory[]
+  categories: ProjectCategory[];
 }
 
 interface IFilterContent {
@@ -46,10 +44,11 @@ const FilterBar = ({
   selected = '',
 }: IFilterBar) => {
   const clean = () => onChange('');
+  const { mode } = useTheme();
   return (
     <AnimateSharedLayout>
-      <div className='w-full flex-column lg:flex justify-center'>
-        <div
+      <motion.div className='w-full flex-column lg:flex justify-center'>
+        <motion.div
           tabIndex={0}
           className={`outline-none cursor-pointer pointer-events-auto bg-transparent text-sm font-roboto hover:bg-cinnabar dark:hover:bg-blue-night font-normal hover:text-white dark:hover:text-white py-4 px-12 relative ${
             '' === selected
@@ -65,7 +64,12 @@ const FilterBar = ({
               layoutId='outline'
               initial={false}
               transition={spring}
-              animate={{ backgroundColor: tailwind.theme.primary }}
+              animate={{
+                backgroundColor:
+                  mode === LIGHT
+                    ? tailwind.theme.colors.cinnabar
+                    : tailwind.theme.colors.blue.night,
+              }}
               style={{
                 position: 'absolute',
                 top: '0px',
@@ -76,13 +80,14 @@ const FilterBar = ({
               }}
             />
           )}
-        </div>
+        </motion.div>
         {categories &&
           categories
             .filter(({ projects }) => projects.length)
             .map(({ id, title }) => (
-              <div
+              <motion.div
                 key={id}
+                layoutId={id}
                 tabIndex={0}
                 className={`outline-none cursor-pointer pointer-events-auto bg-transparent text-sm font-roboto hover:bg-cinnabar dark:hover:bg-blue-night font-normal hover:text-white py-4 px-12 hover:border-transparent relative ${
                   id === selected
@@ -97,7 +102,12 @@ const FilterBar = ({
                   <motion.div
                     layoutId='outline'
                     initial={false}
-                    animate={{ backgroundColor: tailwind.theme.primary }}
+                    animate={{
+                      backgroundColor:
+                        mode === LIGHT
+                          ? tailwind.theme.colors.cinnabar
+                          : tailwind.theme.colors.blue.night,
+                    }}
                     transition={spring}
                     style={{
                       position: 'absolute',
@@ -109,9 +119,9 @@ const FilterBar = ({
                     }}
                   />
                 )}
-              </div>
+              </motion.div>
             ))}
-      </div>
+      </motion.div>
     </AnimateSharedLayout>
   );
 };
@@ -196,36 +206,37 @@ const FilterContent = ({
         categories
           .filter(({ projects }) => projects.length)
           .map(({ id: idCategory, projects }) => (
-              <React.Fragment key={idCategory}>
-                {projects.map(
-                  ({ id: projectCardId, title, featureImage, ...projectRestProps }) => (
-                    <ProjectCard
-                      key={projectCardId}
-                      title={title || ''}
-                      bgImage={featureImage?.url || ''}
-                      display={idCategory === selected || selected === ''}
-                      onClick={() => 
-                        onSelectProject({
-                          id: projectCardId,
-                          title,
-                          featureImage,
-                          ...projectRestProps,
-                        })
-                      }
-                    />
-                  )
-                )}
-              </React.Fragment>
-            )
-          )}
+            <React.Fragment key={idCategory}>
+              {projects.map(
+                ({
+                  id: projectCardId,
+                  title,
+                  featureImage,
+                  ...projectRestProps
+                }) => (
+                  <ProjectCard
+                    key={projectCardId}
+                    title={title || ''}
+                    bgImage={featureImage?.url || ''}
+                    display={idCategory === selected || selected === ''}
+                    onClick={() =>
+                      onSelectProject({
+                        id: projectCardId,
+                        title,
+                        featureImage,
+                        ...projectRestProps,
+                      })
+                    }
+                  />
+                )
+              )}
+            </React.Fragment>
+          ))}
     </div>
   );
 };
 
-const ModalDetails = ({
-  onClose,
-  project,
-}: IModalDetails) => {
+const ModalDetails = ({ onClose, project }: IModalDetails) => {
   return (
     <motion.div
       className={`main-modal fixed w-full h-100 inset-0 overflow-hidden flex justify-center items-center`}
@@ -240,9 +251,8 @@ const ModalDetails = ({
         style={{
           position: 'absolute',
           bottom: 0,
-          backgroundColor: tailwind.theme.primary,
         }}
-        className='absolute h-full w-full bg-cinnabar dark:bg-blue-400 opacity-100'
+        className='absolute h-full w-full bg-cinnabar dark:bg-blue-night opacity-100'
       ></motion.div>
       <motion.div
         initial={{ opacity: 0 }}
@@ -313,7 +323,7 @@ const ModalDetails = ({
 };
 
 interface IPortfolio {
-  categories: ProjectCategory[]
+  categories: ProjectCategory[];
 }
 
 const Portfolio = ({ categories }: IPortfolio) => {
