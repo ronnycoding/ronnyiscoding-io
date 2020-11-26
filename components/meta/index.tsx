@@ -11,7 +11,6 @@ export default function Meta({ seo }: IMeta) {
   return (
     <>
       <Head>
-        <title>{seo?.title}</title>
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <link
           href='https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Lora:wght@400;500;700&family=Open+Sans:wght@300;400;700;800&family=Roboto:wght@300;400;500;700&display=swap'
@@ -112,67 +111,67 @@ export default function Meta({ seo }: IMeta) {
         htmlAttributes={{
           lang: seo?.locale || 'eng',
         }}
-        title={seo?.title}
+        title={seo?.title || ''}
         meta={[
           {
             name: `description`,
-            content: seo?.description,
+            content: seo?.description || '',
           },
           {
             property: `og:title`,
-            content: seo?.opengraphTitle,
+            content: seo?.opengraphTitle || '',
           },
           {
             property: `og:description`,
-            content: seo?.opengraphDescription,
+            content: seo?.opengraphDescription || '',
           },
           {
             property: `og:type`,
-            content: seo?.opengraphType,
+            content: seo?.opengraphType || '',
           },
           {
             property: `og:url`,
-            content: seo?.opengraphUrl,
+            content: seo?.opengraphUrl || '',
           },
           {
             property: `og:site_name`,
-            content: seo?.opengraphSiteName,
+            content: seo?.opengraphSiteName || '',
           },
           {
             property: `og:publisher`,
-            content: seo?.opengraphPublisher,
+            content: seo?.opengraphPublisher || '',
           },
           {
             property: `og:datePublished`,
-            content: seo?.opengraphPublishedTime,
+            content: seo?.opengraphPublishedTime || '',
           },
           {
             property: `og:dateModified`,
-            content: seo?.opengraphModifiedTime,
+            content: seo?.opengraphModifiedTime || '',
           },
           {
             property: `og:author`,
-            content: seo?.opengraphAuthor,
+            content: seo?.opengraphAuthor || '',
+          },
+          {
+            name: `twitter:image`,
+            content: seo?.twitterImage?.url || '',
           },
           {
             name: `twitter:card`,
-            content: `summary`,
-          },
-          {
-            name: `twitter:creator`,
-            content: seo?.opengraphAuthor,
+            content: `summary_large_image`,
           },
           {
             name: `twitter:title`,
-            content: seo?.title,
+            content: seo?.title || '',
           },
           {
             name: `twitter:description`,
-            content: seo?.twitterDescription,
+            content: seo?.twitterDescription || '',
           },
           {
             name: `keywords`,
-            content: seo?.focuskw,
+            content: seo?.focuskw || '',
           },
           {
             name: `twitter:site`,
