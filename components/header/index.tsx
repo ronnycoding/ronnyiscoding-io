@@ -13,13 +13,18 @@ import {
 const tailwind = require('../../tailwind.config');
 
 const Header = () => {
-  const { mode, theme } = useTheme();
+  const { mode } = useTheme();
   const { toggleTheme } = useThemeDispatch();
   const { scrollYProgress } = useViewportScroll();
   const backgroundColor = useTransform(
     scrollYProgress,
     [0, 0.1],
-    ['rgba(0, 0, 0, 0)', mode === LIGHT ? tailwind.theme.colors.gray.lightTheme : tailwind.theme.colors.gray.darkTheme]
+    [
+      'rgba(0, 0, 0, 0)',
+      mode === LIGHT
+        ? tailwind.theme.colors.gray.lightTheme
+        : tailwind.theme.colors.gray.darkTheme,
+    ]
   );
 
   const boxShadow = useTransform(
@@ -33,7 +38,6 @@ const Header = () => {
       style={{ backgroundColor, boxShadow, zIndex: 98 }}
       className='fixed w-full'
     >
-      {/* shadow */}
       <motion.div className='sticky'>
         <motion.div className='px-4'>
           <motion.div className='flex items-center justify-between py-4'>
@@ -43,69 +47,29 @@ const Header = () => {
                 width={45}
                 className='cursor-pointer pointer-events-auto'
                 tabIndex={0}
-                // alt={}
+                alt='Ronny is Coding!'
               />
             </Link>
             <div className='flex'>
-              {/* <div className="hidden sm:flex sm:items-end">
-                
-              </div>
-              <div className="hidden sm:flex sm:items-end">
-                
-              </div>
-              <div className="hidden sm:flex sm:items-end">
-                
-              </div> */}
               <div className='cursor-pointer' onClick={toggleTheme}>
                 {mode === LIGHT ? (
                   <RiSunLine
                     tabIndex={0}
                     className='cursor-pointer pointer-events-auto'
-                    color={theme.primary}
+                    color={tailwind.theme.colors.cinnabar}
                     size='2em'
                   />
                 ) : (
                   <BsMoon
                     tabIndex={0}
                     className='cursor-pointer pointer-events-auto'
-                    color={theme.primary}
+                    color={tailwind.theme.colors.blue.night}
                     size='2em'
                   />
                 )}
               </div>
             </div>
           </motion.div>
-
-          {/* <div className="block sm:hidden bg-white border-t-2 py-2">
-            <div className="flex flex-col">
-              <Link
-                to={'/'}
-                className="text-gray-800 text-sm font-semibold hover:text-purple-600 mb-1"
-              >
-                {'Example'}
-              </Link>
-              <Link
-                to={'/'}
-                className="text-gray-800 text-sm font-semibold hover:text-purple-600 mb-1"
-              >
-                {'Example'}
-              </Link>
-              <Link
-                to={'/'}
-                className="text-gray-800 text-sm font-semibold hover:text-purple-600 mb-1"
-              >
-                {'Example'}
-              </Link>
-              <div className="flex justify-between items-center border-t-2 pt-2">
-                <a
-                  href="#"
-                  className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4"
-                >
-                  {'Example'}
-                </a>
-              </div>
-            </div>
-          </div> */}
         </motion.div>
       </motion.div>
     </motion.div>

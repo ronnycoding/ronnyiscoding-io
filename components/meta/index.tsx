@@ -16,6 +16,8 @@ export default function Meta({ seo }: IMeta) {
         <link
           href='https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Lora:wght@400;500;700&family=Open+Sans:wght@300;400;700;800&family=Roboto:wght@300;400;500;700&display=swap'
           rel='stylesheet'
+          // @ts-ignore
+          lazyload
         />
         <link
           rel='apple-touch-icon'
@@ -105,7 +107,6 @@ export default function Meta({ seo }: IMeta) {
             gtag('config', 'UA-180359002-1');`,
           }}
         />
-        {/* End Google Tag Manager (noscript) */}
       </Head>
       <Helmet
         htmlAttributes={{
