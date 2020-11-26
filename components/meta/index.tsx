@@ -1,13 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
 import { Helmet } from 'react-helmet';
-import {
-  Seo,
-} from '../../src/generated/graphql';
+import { Seo } from '../../src/generated/graphql';
 
-interface IMeta {seo?: Seo | null}
+interface IMeta {
+  seo?: Seo | null;
+}
 
-export default function Meta({seo}: IMeta) {
+export default function Meta({ seo }: IMeta) {
   return (
     <>
       <Head>
@@ -91,8 +91,11 @@ export default function Meta({seo}: IMeta) {
         <meta name='msapplication-TileImage' content='/ms-icon-144x144.png' />
         <meta name='theme-color' content='#ffffff' />
         <meta name='description' content={seo?.opengraphDescription || ''} />
-        <meta property='og:image' content='/favicon.png' />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180359002-1"></script>
+        <meta property='og:image' content={seo?.twitterImage?.url || ''} />
+        <script
+          async
+          src='https://www.googletagmanager.com/gtag/js?id=UA-180359002-1'
+        ></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer = window.dataLayer || [];
@@ -169,6 +172,14 @@ export default function Meta({seo}: IMeta) {
           {
             name: `keywords`,
             content: seo?.focuskw,
+          },
+          {
+            name: `twitter:site`,
+            content: '@ronnyiscoding',
+          },
+          {
+            name: `twitter:creator`,
+            content: '@ronnyiscoding',
           },
         ]}
       />
